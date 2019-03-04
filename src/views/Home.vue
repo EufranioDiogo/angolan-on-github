@@ -1,8 +1,6 @@
 <template>
 	<div class="view">
-
 		<loading v-if="showLoadBar"></loading>
-
 		<h1
 			v-show="users"
 			class="we-are title is-4"
@@ -27,30 +25,38 @@
 					<span class="tag" @click="Sort('repositories', $event.target)">
 						Number of repositories
 					</span>
-
 					<!-- Orders -->
 					<span class="tag is-dark" @click="Order('asc')" title="Get results in ascending order" v-show="showOrdersBtn">Ascending</span>
 					<span class="tag is-dark" @click="Order('desc')" title="Get results in descending order" v-show="showOrdersBtn">Descending</span>
-
 					<!-- Clear button to return to the original results -->
 					<span class="tag is-warning" @click="Clear()" v-show="showOrdersBtn">Clear</span>
 				</div>
-			</div><!--//.column -->
-
+			</div>
+			<!--//.column -->
 			<div class="column is-one-quarter">
 				<div class="field">
-					<input type="text" v-model="searchTerm" v-on:keyup.enter="LoadProfiles()" v-on:blur="LoadProfiles()" placeholder="Search by name" class="input">
+					<input
+						type="text"
+						v-model="searchTerm"
+						v-on:keyup.enter="LoadProfiles()"
+						v-on:blur="LoadProfiles()"
+						placeholder="Search by name"
+						class="input"
+					>
 				</div>
 			</div>
 		</div>
 
 		<!-- Users box -->
 		<article class="users">
-			<div class="user card" v-for="user in users">
+			<div class="user card" v-for="user in users" :key="user.id">
 				<!-- Profile Photo -->
 				<div class="card-image">
 					<figure class="image is4by3">
-						<router-link :to="{ name: 'Profile', params: { username: user.login } }" :title="'Open ' + user.login + '`s profile'">
+						<router-link
+							:to="{ name: 'Profile', params: { username: user.login } }"
+							:title="'Open ' + user.login + '`s profile'"
+						>
 							<img :src="user.avatar_url" :alt="user.login">
 						</router-link>
 					</figure>
@@ -158,7 +164,9 @@
 			*	TotalUsers: This method get the total users matching Angola in their profiles
 			*/
 			TotalUsers() {
-				this.$http.get('https://api.github.com/search/users?q=location:Angola+location:luanda')
+				this.$http.get(
+					'https://api.github.com/search/users?q=location:Angola+location:luanda',
+				)
 					.then(
 						(users) => {
 							const data = JSON.parse(users.bodyText);
@@ -170,7 +178,9 @@
 			*	This method is responsible to load user's profiles.
 			*/
 			LoadProfiles() {
-				this.$http.get(`https://api.github.com/search/users?q=${this.searchTerm} location:Angola+location:luanda&sort=${this.sort}${this.order}&per_page=30`)
+				this.$http.get(
+					`https://api.github.com/search/users?q=${this.searchTerm} location:Angola+location:luanda&sort=${this.sort}${this.order}&per_page=30`,
+				)
 				.then(
 					(users) => {
 						const data = JSON.parse(users.bodyText);
@@ -205,7 +215,9 @@
 					this.pageNumber += 1;
 
 					// Request the data
-					this.$http.get(`https://api.github.com/search/users?q=${this.searchTerm} location:Angola+location:luanda&per_page=30&page=${this.pageNumber}`)
+					this.$http.get(
+						`https://api.github.com/search/users?q=${this.searchTerm} location:Angola+location:luanda&per_page=30&page=${this.pageNumber}`,
+					)
 					.then(
 						(users) => {
 							// Parse the raw data as JSON format
@@ -226,38 +238,38 @@
 </script>
 
 <style>
-	.we-are{
-		font-size: 30px;
-		font-weight: bold;
-		color: #00d1b2;
-		text-align: center;
-	}
+.we-are{
+	font-size: 30px;
+	font-weight: bold;
+	color: #00d1b2;
+	text-align: center;
+}
 
-	.users{
-		overflow: auto;
-	}
+.users{
+	overflow: auto;
+}
 
-	.users .user{
-		width: 25%;
-		min-height: 250px;
-		float: left;
-		margin-bottom: 15px;
-	}
+.users .user{
+	width: 25%;
+	min-height: 250px;
+	float: left;
+	margin-bottom: 15px;
+}
 
-	.users .user .title{
-		font-size: 20px;
-	}
+.users .user .title{
+	font-size: 20px;
+}
 
-	.users .user .card-content{
-		padding: 10px;
-	}
+.users .user .card-content{
+	padding: 10px;
+}
 
-	/* Filters */
-	.filters{
-		margin-bottom: 20px;
-	}
+/* Filters */
+.filters{
+	margin-bottom: 20px;
+}
 
-	.filters .tag{
-		cursor: pointer;
-	}
+.filters .tag{
+	cursor: pointer;
+}
 </style>

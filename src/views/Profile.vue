@@ -37,7 +37,12 @@
 					<h2 class="title"> Projects </h2>
 					
 					<!-- Single repository -->
-					<a :href="repo.html_url" v-for="repo in repositories" target="blank">
+					<a
+						:href="repo.html_url"
+						v-for="repo in repositories"
+						:key="repo.id"
+						target="blank"
+					>
 						<div class="card repository">
 							<p class="title is-4">
 								<a :href="repo.html_url" target="blank"> {{ repo.name }} </a>
@@ -106,7 +111,9 @@
 				// Get username from url param
 				const username = this.$route.params.username;
 
-				this.$http.get(`https://api.github.com/search/repositories?q=user:${username}`)
+				this.$http.get(
+					`https://api.github.com/search/repositories?q=user:${username}`,
+				)
 				.then(
 					(repo) => {
 						this.repositories = JSON.parse(repo.bodyText).items;
@@ -121,39 +128,35 @@
 </script>
 
 <style>
-	.card{
-		width: 460px;
-		margin: 0 auto;
-	}
+.card{
+	width: 460px;
+	margin: 0 auto;
+}
 
-	.card .card-image img{
-		width: 100%;
-	}
+.card .card-image img{
+	width: 100%;
+}
 
-	.repositories .repository{
-		margin-bottom: 10px;
-		padding: 10px;
-	}
+.repositories .repository{
+	margin-bottom: 10px;
+	padding: 10px;
+}
 
-	.repositories .repository::before{
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 4px;
-		background-color: #EEE;
-		-webkit-transition: background-color .5s;
-		-moz-transition: background-color .5s;
-		-ms-transition: background-color .5s;
-		transition: background-color .5s;
-	}
+.repositories .repository::before{
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 4px;
+	background-color: #EEE;
+	-webkit-transition: background-color .5s;
+	-moz-transition: background-color .5s;
+	-ms-transition: background-color .5s;
+	transition: background-color .5s;
+}
 
-	.repositories .repository:hover::before{
-		background-color: #00d1b2;
-	}
-
-	/*.repositories .repository:last-child{
-		margin-bottom: 0;
-	}*/
+.repositories .repository:hover::before{
+	background-color: #00d1b2;
+}
 </style>

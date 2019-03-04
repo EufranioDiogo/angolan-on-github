@@ -4,6 +4,7 @@ import Vue from 'vue';
 import VueResource from 'vue-resource';
 import App from './App';
 import router from './router';
+// Import components
 
 Vue.config.productionTip = false;
 Vue.use(VueResource);
