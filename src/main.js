@@ -5,9 +5,13 @@ import VueResource from 'vue-resource';
 import App from './App';
 import router from './router';
 // Import components
+import Loading from './components/Loading';
 
 Vue.config.productionTip = false;
 Vue.use(VueResource);
+
+// Setup components here
+Vue.component('loading', Loading);
 
 /* eslint-disable no-new */
 new Vue({

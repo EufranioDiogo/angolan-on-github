@@ -82,9 +82,6 @@
 </template>
 
 <script>
-	// Import components
-	import Loading from '@/components/Loading';
-
 	export default {
 		name: '',
 		data() {
@@ -99,9 +96,6 @@
 				sort: '',
 				order: '',
 			};
-		},
-		components: {
-			loading: Loading,
 		},
 		created() {
 			this.TotalUsers();

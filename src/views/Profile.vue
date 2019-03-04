@@ -67,9 +67,6 @@
 </template>
 
 <script>
-	// Import components
-	import Loading from '@/components/Loading';
-
 	export default {
 		name: 'Profile',
 		data() {
@@ -79,12 +76,6 @@
 				showLoadBar: true,
 			};
 		},
-		components: {
-			loading: Loading,
-		},
-		/**
-		*	It start the first request to get information about a specific user.
-		*/
 		created() {
 			// Get username from url param
 			const username = this.$route.params.username;
