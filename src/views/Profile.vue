@@ -1,6 +1,6 @@
 <template>
 	<div class="view">
-		<loading v-if="showLoadBar"></loading>
+		<loading v-if="isRequesting"></loading>
 
 		<div class="card">
 			<div class="card-image">
@@ -73,46 +73,39 @@
 			return {
 				user: '',
 				repositories: '',
-				showLoadBar: true,
+				isRequesting: true,
 			};
 		},
 		created() {
-			// Get username from url param
-			const username = this.$route.params.username;
-			// Get a single user
-			this.$http.get(`https://api.github.com/users/${username}`)
-			.then(
-				(user) => {
-					const data = JSON.parse(user.bodyText);
-					this.user = data;
-					// Hide loading bar
-					this.showLoadBar = false;
-					this.GetRepositories();
-				},
-				(err) => {
-					console.log(err);
-				},
-			);
+			this.GetUserProfile();
+			this.GetRepositories();
 		},
 		methods: {
-			/**
-			*	Get all the repositories of a specific user.
-			*/
-			GetRepositories() {
+			async GetUserProfile() {
+				try {
+					// Get username from url param
+					const username = this.$route.params.username;
+					// Get a single user
+					const res = await this.axios.get(
+						`https://api.github.com/users/${username}`,
+					);
+					this.user = res.data;
+				} catch (e) {
+					console.log(e);
+				}
+				this.isRequesting = false;
+			},
+			async GetRepositories() {
 				// Get username from url param
 				const username = this.$route.params.username;
-
-				this.$http.get(
-					`https://api.github.com/search/repositories?q=user:${username}`,
-				)
-				.then(
-					(repo) => {
-						this.repositories = JSON.parse(repo.bodyText).items;
-					},
-					(err) => {
-						console.log(err);
-					},
-				);
+				try {
+					const res = await this.$http.get(
+						`https://api.github.com/search/repositories?q=user:${username}`,
+					);
+					this.repositories = res.data.items;
+				} catch (e) {
+					console.log(e);
+				}
 			},
 		},
 	};

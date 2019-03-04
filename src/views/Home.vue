@@ -97,10 +97,6 @@
 				order: '',
 			};
 		},
-		created() {
-			this.TotalUsers();
-			this.LoadProfiles();
-		},
 		methods: {
 			/**
 			*	This method clears all sort and other options.
@@ -154,79 +150,43 @@
 				// Make the request in the API
 				this.LoadProfiles();
 			},
-			/**
-			*	TotalUsers: This method get the total users matching Angola in their profiles
-			*/
-			TotalUsers() {
-				this.$http.get(
-					'https://api.github.com/search/users?q=location:Angola+location:luanda',
-				)
-					.then(
-						(users) => {
-							const data = JSON.parse(users.bodyText);
-							this.totalUsers = data.total_count;
-						},
+			async LoadProfiles() {
+				try {
+					const res = await this.axios.get(
+						`https://api.github.com/search/users?q=${this.searchTerm} location:Angola+location:luanda&sort=${this.sort}${this.order}&per_page=30`,
 					);
+					this.users = res.data.items;
+					this.totalUsers = res.data.total_count;
+					this.pagination = Math.round(res.data.total_count / 30) + 1;
+				} catch (e) {
+					console.log(e);
+				}
+				// Hide loading bar
+				this.showLoadBar = false;
 			},
-			/**
-			*	This method is responsible to load user's profiles.
-			*/
-			LoadProfiles() {
-				this.$http.get(
-					`https://api.github.com/search/users?q=${this.searchTerm} location:Angola+location:luanda&sort=${this.sort}${this.order}&per_page=30`,
-				)
-				.then(
-					(users) => {
-						const data = JSON.parse(users.bodyText);
-						// Pagination is the result of total users found devided by
-						// the number of users listed per request which is 30
-						this.pagination = Math.round(data.total_count / 30) + 1;
-						// Store all the users found
-						this.users = data.items;
-						// Hide loading bar
-						this.showLoadBar = false;
-					},
-					(err) => {
-						console.log(err);
-					},
-				);
-			},
-			/**
-			*	This method request more profiles and add the result to an existent array of users
-			*   loaded before.
-			*/
-			LoadMoreProfiles() {
-				/*
-				*	This method fecth more users from Github API
-				*/
-
+			async LoadMoreProfiles() {
 				// Show loading bar
 				this.showLoadBar = true;
-
 				// Condition to change pagination number
 				if (this.pageNumber <= this.pagination) {
 					// Increment in the number of the page to be requested on github
 					this.pageNumber += 1;
-
-					// Request the data
-					this.$http.get(
-						`https://api.github.com/search/users?q=${this.searchTerm} location:Angola+location:luanda&per_page=30&page=${this.pageNumber}`,
-					)
-					.then(
-						(users) => {
-							// Parse the raw data as JSON format
-							const data = JSON.parse(users.bodyText);
-							// Concatenate the fetched results with a existing array
-							this.users = this.users.concat(data.items);
-							// Hide loading bar
-							this.showLoadBar = false;
-						},
-						(err) => {
-							console.log(err);
-						},
-					);
+					try {
+						// Request the data
+						const res = await this.axios.get(
+							`https://api.github.com/search/users?q=${this.searchTerm} location:Angola+location:luanda&per_page=30&page=${this.pageNumber}`,
+						);
+						this.users = this.users.concat(res.data.items);
+					} catch (e) {
+						console.log(e);
+					}
+					// Hide loading bar
+					this.showLoadBar = false;
 				}
 			},
+		},
+		created() {
+			this.LoadProfiles();
 		},
 	};
 </script>
