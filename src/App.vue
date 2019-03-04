@@ -7,7 +7,7 @@
 			<p>Get to know all the coders based in Angola who loves and work in open source projects on Github.</p>
 		</header>
 
-		<div class="container">
+		<div v-if="true" class="container content-container">
 			<router-view></router-view>
 		</div>
 
@@ -34,9 +34,17 @@ export default {
 	@import '../node_modules/bulma/css/bulma.css';
 	@import '../node_modules/font-awesome/css/font-awesome.min.css';
 
+	html, body {
+		height: 100%;
+	}
+
 	body{
 		height: 100%;
 		position: relative;
+	}
+
+	#app {
+		height: 100%;
 	}
 
 	a{
@@ -48,6 +56,10 @@ export default {
 
 	.container {
 		padding: 0 20px 0 20px;
+	}
+
+	.content-container {
+		min-height: calc(100% - 200px);
 	}
 
 	/* Header */
