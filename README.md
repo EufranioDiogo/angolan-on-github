@@ -1,35 +1,34 @@
 # angolan-on-github
 
-> Angolans developers on Github. Built with Vuejs and Github API
-
-## Build Setup
-
-``` bash
-# install dependencies
+## Project setup
+```
 npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-## How to contribute
+### Compiles and minifies for production
+```
+npm run build
+```
 
-If you would like to contribute feel free to do so, but first read our [guide](CONTRIBUTING.md) to make it easier for everyone. 
+### Run your unit tests
+```
+npm run test:unit
+```
 
-## Acknoledgments
+### Run your end-to-end tests
+```
+npm run test:e2e
+```
 
-[Patrício Dos Santos](https://github.com/psantos10)
+### Lints and fixes files
+```
+npm run lint
+```
 
-## License
-
-This project is under MIT license. Read more about that [here](LICENSE.md)
-
-Copyright 2017 - [Firmino Changani](http://github.com/flowck)
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
