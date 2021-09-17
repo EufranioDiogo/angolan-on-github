@@ -1,15 +1,14 @@
 <template>
   <div class="view">
     <loading v-if="showLoadBar"></loading>
-    <h1 v-show="users" class="we-are title is-4">
-      We are {{ totalUsers }} developers and organizations based in
+    <h1 v-show="users" class="we-are h1">
+      {{ totalUsers }} software developers (organizations) based in
       <a
         href="https://en.wikipedia.org/wiki/Angola"
         title="Want to know more about Angola?"
       >
         Angola
       </a>
-      🙌 👏.
     </h1>
 
     <!-- Sorts, Orders, -->
@@ -17,12 +16,12 @@
       <div class="column">
         <div class="filters">
           <!-- Sorts -->
-          <span class="tag" @click="Sort('followers', $event.target)"
-            >Followers</span
-          >
-          <span class="tag" @click="Sort('joined', $event.target)"
-            >Joined date</span
-          >
+          <span class="tag" @click="Sort('followers', $event.target)">
+            Followers
+          </span>
+          <span class="tag" @click="Sort('joined', $event.target)">
+            Joined date
+          </span>
           <span class="tag" @click="Sort('repositories', $event.target)">
             Number of repositories
           </span>
@@ -30,16 +29,16 @@
           <span
             class="tag is-dark"
             @click="Order('asc')"
-            title="Get results in ascending order"
             v-show="showOrdersBtn"
+            title="Get results in ascending order"
           >
             Ascending
           </span>
           <span
             class="tag is-dark"
             @click="Order('desc')"
-            title="Get results in descending order"
             v-show="showOrdersBtn"
+            title="Get results in descending order"
           >
             Descending
           </span>
@@ -54,11 +53,11 @@
         <div class="field">
           <input
             type="text"
+            class="form-control"
             v-model="searchTerm"
-            v-on:keyup.enter="LoadProfiles()"
-            v-on:blur="LoadProfiles()"
+            @blur="LoadProfiles()"
             placeholder="Search by name"
-            class="input"
+            @keyup.enter="LoadProfiles()"
           />
         </div>
       </div>
@@ -66,27 +65,7 @@
 
     <!-- Users box -->
     <article class="users">
-      <div class="user card" v-for="user in users" :key="user.id">
-        <!-- Profile Photo -->
-        <div class="card-image">
-          <figure class="image is4by3">
-            <router-link
-              :to="{ name: 'Profile', params: { username: user.login } }"
-              :title="'Open ' + user.login + '`s profile'"
-            >
-              <img :src="user.avatar_url" :alt="user.login" />
-            </router-link>
-          </figure>
-        </div>
-
-        <!-- Profile Information -->
-        <div class="card-content">
-          <!-- Name -->
-          <h1 class="title is-4">
-            <a :href="user.html_url"> @{{ user.login }} </a>
-          </h1>
-        </div>
-      </div>
+      <UserCard v-for="user in users" :key="user.id" :user="user"></UserCard>
     </article>
 
     <!-- Load More Button -->
@@ -97,11 +76,13 @@
 </template>
 
 <script lang="ts">
+import UserCard from "@/components/user-card/user-card.vue";
 import axios from "axios";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "",
+  components: { UserCard },
   data() {
     return {
       users: [],
@@ -178,6 +159,7 @@ export default defineComponent({
           },
         };
         const res = await axios.get(`/search/users`, options);
+        console.log(JSON.stringify(res));
         this.users = res.data.items;
         this.totalUsers = res.data.total_count;
         this.pagination = Math.round(res.data.total_count / 30) + 1;
@@ -214,4 +196,10 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style lang="scss">
+.users {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+</style>

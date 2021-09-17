@@ -1,16 +1,7 @@
 <template>
   <div id="app">
-    <header class="main-header container">
-      <a href="/#">
-        <img src="/static/logo.png" />
-      </a>
-      <p>
-        Get to know all the coders based in Angola who loves and work in open
-        source projects on Github.
-      </p>
-    </header>
-
-    <div v-if="true" class="container content-container">
+    <Header></Header>
+    <div class="container content-container">
       <router-view></router-view>
     </div>
 
@@ -43,42 +34,17 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "angolansOnGithub",
-};
+<script lang="ts">
+import Header from "@/components/header/header.vue";
+import { defineComponent } from "vue";
+export default defineComponent({
+  components: { Header },
+});
 </script>
 
-<style>
-html,
-body {
-  height: 100%;
-}
-
-body {
-  height: 100%;
-  position: relative;
-}
-
-#app {
-  height: 100%;
-}
-
-a {
-  -webkit-transition: color 0.5s;
-  -moz-transition: color 0.5s;
-  -ms-transition: color 0.5s;
-  transition: color 0.5s;
-}
-
-.container {
-  padding: 0 20px 0 20px;
-}
-
-.content-container {
-  min-height: calc(100% - 200px);
-}
-
+<style lang="scss">
+@import "@primer/css/core/index.scss";
+@import "./assets/styles/main.scss";
 /* Header */
 .main-header {
   width: 50%;

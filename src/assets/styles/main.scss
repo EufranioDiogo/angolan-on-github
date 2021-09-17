@@ -1,0 +1,28 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  position: relative;
+}
+
+#app {
+  height: 100%;
+}
+
+a {
+  -webkit-transition: color 0.5s;
+  -moz-transition: color 0.5s;
+  -ms-transition: color 0.5s;
+  transition: color 0.5s;
+}
+
+.container {
+  padding: 0 20px 0 20px;
+}
+
+.content-container {
+  min-height: calc(100% - 200px);
+}
