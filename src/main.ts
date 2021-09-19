@@ -1,4 +1,5 @@
 import axios from "axios";
+import "@primer/css/core/index.scss";
 import App from "./App.vue";
 import store from "./store";
 import router from "./router";

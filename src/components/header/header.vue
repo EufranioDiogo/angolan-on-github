@@ -1,7 +1,10 @@
 <template>
   <header class="Header">
     <div class="Header-item">
-      <h1 class="h2">Angolans on Github</h1>
+      <router-link to="/">Angolans on Github</router-link>
+    </div>
+    <div class="Header-item">
+      <input type="text" placeholder="Search by name" class="form-control Header-input" />
     </div>
   </header>
 </template>

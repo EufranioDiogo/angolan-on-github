@@ -1,7 +1,5 @@
 <template>
   <div class="view">
-    <loading v-if="isRequesting"></loading>
-
     <div class="card">
       <div class="card-image">
         <figure>
