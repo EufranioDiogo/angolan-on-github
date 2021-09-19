@@ -1,8 +1,10 @@
 import { createStore } from "vuex";
+import { usersModule } from "./users";
+import { version } from "../../package.json";
 
 export default createStore({
-  state: {},
-  mutations: {},
   actions: {},
-  modules: {},
+  mutations: {},
+  state: { version },
+  modules: { usersModule },
 });
